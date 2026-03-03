@@ -1,9 +1,9 @@
 import { useReveal } from '../hooks/useReveal';
 
-import reactImg from '../assets/react.png';
-import firebaseImg from '../assets/firebase.jpeg';
-import nodejsImg from '../assets/nodejs.jpeg';
+import firebaseImg from '../assets/firebase.png';
+import nodejsImg from '../assets/nodejs.png';
 import postgresqlImg from '../assets/postgresql.png';
+import reactImg from '../assets/react.png';
 
 type Technology = {
     name: string;

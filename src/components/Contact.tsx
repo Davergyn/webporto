@@ -9,8 +9,7 @@ const contactInfo = [
             </svg>
         ),
         label: 'Email',
-        value: 'hello@alexmorgan.dev',
-        href: 'mailto:hello@alexmorgan.dev',
+        value: 'davinvergian01@gmail.com',
     },
     {
         icon: (
@@ -20,7 +19,7 @@ const contactInfo = [
             </svg>
         ),
         label: 'Location',
-        value: 'Jakarta, Indonesia',
+        value: 'Yogyakarta, Indonesia',
         href: '#',
     },
 ];
@@ -125,7 +124,7 @@ export default function Contact() {
                                                 setFormState({ ...formState, name: e.target.value })
                                             }
                                             className="w-full px-4 py-3 rounded-xl bg-surface-light/50 border border-surface-lighter/50 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all duration-300"
-                                            placeholder="John Doe"
+                                            placeholder="Nama Kamu"
                                             required
                                         />
                                     </div>
@@ -144,7 +143,7 @@ export default function Contact() {
                                                 setFormState({ ...formState, email: e.target.value })
                                             }
                                             className="w-full px-4 py-3 rounded-xl bg-surface-light/50 border border-surface-lighter/50 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all duration-300"
-                                            placeholder="john@example.com"
+                                            placeholder="Email_kamu@example.com"
                                             required
                                         />
                                     </div>

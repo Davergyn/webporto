@@ -114,11 +114,13 @@ export default function TechStack() {
                         </p>
                     </div>
 
-                    {/* Tech Grid */}
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-                        {technologies.map((tech, index) => (
-                            <TechCard key={tech.name} tech={tech} index={index} />
-                        ))}
+                    {/* Tech Marquee */}
+                    <div className="group overflow-x-auto scrollbar-hide">
+                        <div className="marquee-track animate-marquee-right gap-4">
+                            {[...technologies, ...technologies].map((tech, index) => (
+                                <TechCard key={`${tech.name}-${index}`} tech={tech} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -128,21 +130,13 @@ export default function TechStack() {
 
 function TechCard({
     tech,
-    index,
 }: {
     tech: Technology;
-    index: number;
 }) {
-    const { ref, isVisible } = useReveal();
-
     return (
-        <div
-            ref={ref}
-            className={`reveal-scale ${isVisible ? 'visible' : ''}`}
-            style={{ transitionDelay: `${index * 80}ms` }}
-        >
-            <div className="glass rounded-2xl p-6 flex flex-col items-center gap-3 border border-transparent hover:border-primary/30 card-hover group cursor-default">
-                <div className="transition-all duration-300 group-hover:scale-110">
+        <div className="shrink-0">
+            <div className="glass rounded-2xl w-28 h-28 flex flex-col items-center justify-center gap-2 border border-transparent hover:border-primary/30 card-hover group/card cursor-default">
+                <div className="transition-all duration-300 group-hover/card:scale-110">
                     {tech.image ? (
                         <img
                             src={tech.image}
@@ -153,7 +147,7 @@ function TechCard({
                         <div style={{ color: tech.color }}>{tech.icon}</div>
                     )}
                 </div>
-                <span className="text-sm font-medium text-text-secondary group-hover:text-text-primary transition-colors duration-300">
+                <span className="text-sm font-medium text-text-secondary group-hover/card:text-text-primary transition-colors duration-300 text-center w-full px-2 truncate">
                     {tech.name}
                 </span>
             </div>

@@ -47,11 +47,13 @@ export default function About() {
                         </p>
                     </div>
 
-                    {/* Skills Grid */}
-                    <div className="grid md:grid-cols-3 gap-6">
-                        {skills.map((skill, index) => (
-                            <SkillCard key={skill.category} skill={skill} delay={index * 150} />
-                        ))}
+                    {/* Skills Marquee */}
+                    <div className="group overflow-x-auto scrollbar-hide">
+                        <div className="marquee-track animate-marquee-left gap-6">
+                            {[...skills, ...skills].map((skill, index) => (
+                                <SkillCard key={`${skill.category}-${index}`} skill={skill} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,19 +63,11 @@ export default function About() {
 
 function SkillCard({
     skill,
-    delay,
 }: {
     skill: (typeof skills)[0];
-    delay: number;
 }) {
-    const { ref, isVisible } = useReveal();
-
     return (
-        <div
-            ref={ref}
-            className={`reveal-scale ${isVisible ? 'visible' : ''}`}
-            style={{ transitionDelay: `${delay}ms` }}
-        >
+        <div className="shrink-0 w-72">
             <div
                 className={`glass rounded-2xl p-8 border ${skill.border} card-hover h-full`}
             >

@@ -31,7 +31,7 @@ export default function Navbar() {
                     href="#home"
                     className="text-xl font-bold tracking-tight gradient-text hover:opacity-80 transition-opacity"
                 >
-                    &lt;Dev /&gt;
+                    &lt;Davergyn /&gt;
                 </a>
 
                 {/* Desktop Links */}

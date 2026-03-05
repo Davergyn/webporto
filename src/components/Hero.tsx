@@ -138,11 +138,10 @@ export default function Hero() {
                     </div>
 
                     {/* Stats */}
-                    <div className="flex items-center gap-8 mt-10 justify-center lg:justify-start">
+                    <div className="flex items-center gap-20 mt-10 justify-center lg:justify-start">
                         {[
-                            { num: '3+', label: 'Years Exp.' },
+                            { num: '1+', label: 'Years Exp.' },
                             { num: '25+', label: 'Projects' },
-                            { num: '15+', label: 'Clients' },
                         ].map((stat) => (
                             <div key={stat.label} className="text-center">
                                 <p className="text-2xl font-bold gradient-text">
@@ -196,24 +195,6 @@ export default function Hero() {
                         <div className="absolute -bottom-2 -right-2 w-3 h-3 rounded-full bg-accent/60 blur-[2px]" />
                     </div>
                 </motion.div>
-            </div>
-
-            {/* Scroll indicator */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-                <span className="text-xs text-text-muted">Scroll Down</span>
-                <svg
-                    className="w-5 h-5 text-primary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                    />
-                </svg>
             </div>
         </section>
     );

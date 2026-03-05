@@ -6,7 +6,7 @@ export default function Footer() {
             <div className="max-w-6xl mx-auto px-6">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                     <a href="#home" className="text-lg font-bold gradient-text">
-                        &lt;Dev /&gt;
+                        &lt;Davergyn /&gt;
                     </a>
 
                     <p className="text-sm text-text-muted text-center">

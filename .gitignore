@@ -13,6 +13,9 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env*
+
 # Assets (DO NOT PUSH)
 src/assets/
 

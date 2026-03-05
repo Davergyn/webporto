@@ -1,5 +1,8 @@
-import { useState, type FormEvent } from 'react';
+import { useRef, useState } from 'react';
+
 import { useReveal } from '../hooks/useReveal';
+
+type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 const contactInfo = [
     {
@@ -81,18 +84,46 @@ const socials = [
 
 export default function Contact() {
     const { ref: sectionRef, isVisible } = useReveal();
-    const [formState, setFormState] = useState({
-        name: '',
-        email: '',
-        message: '',
-    });
-    const [submitted, setSubmitted] = useState(false);
+    const formRef = useRef<HTMLFormElement>(null);
+    const [status, setStatus] = useState<FormStatus>('idle');
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 3000);
-        setFormState({ name: '', email: '', message: '' });
+        if (status === 'loading') return; // guard against double-submit
+
+        setStatus('loading');
+
+        // Ambil data dari form menggunakan FormData (semi-controlled)
+        const formData = new FormData(formRef.current!);
+        const payload = {
+            name: formData.get('from_name') as string,
+            email: formData.get('from_email') as string,
+            message: formData.get('message') as string,
+            _gotcha: formData.get('_gotcha') as string, // honeypot field
+        };
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (!res.ok) {
+                throw new Error('Gagal mengirim pesan');
+            }
+
+            setStatus('success');
+            formRef.current?.reset(); // Bersihkan form setelah berhasil
+
+            // Kembalikan status ke idle setelah 4 detik
+            setTimeout(() => setStatus('idle'), 4000);
+        } catch {
+            setStatus('error');
+
+            // Kembalikan status ke idle setelah 3 detik agar bisa coba lagi
+            setTimeout(() => setStatus('idle'), 3000);
+        }
     };
 
     return (
@@ -105,15 +136,15 @@ export default function Contact() {
                     {/* Section Header */}
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-1.5 rounded-full glass text-sm text-primary font-medium mb-4">
-                            Contact
+                            Kontak
                         </span>
                         <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                            Let's{' '}
-                            <span className="gradient-text">Work Together</span>
+                            Ayo{' '}
+                            <span className="gradient-text">Berkolaborasi</span>
                         </h2>
                         <p className="text-text-secondary max-w-xl mx-auto">
-                            Have a project in mind? I'd love to hear about it. Send me a
-                            message and let's create something amazing.
+                            Punya proyek/ide yang ingin diwujudkan? Saya ingin sekali mendengarnya.
+                            Kirimkan pesan kepada saya dan mari kita ciptakan sesuatu yang luar biasa.
                         </p>
                     </div>
 
@@ -121,46 +152,53 @@ export default function Contact() {
                         {/* Contact Form */}
                         <div className="lg:col-span-3">
                             <form
+                                ref={formRef}
                                 onSubmit={handleSubmit}
                                 className="glass rounded-2xl p-8 border border-surface-lighter/50"
                             >
+                                {/* Honeypot field — invisible untuk user, tapi bot akan mengisinya */}
+                                <input
+                                    type="text"
+                                    name="_gotcha"
+                                    autoComplete="off"
+                                    tabIndex={-1}
+                                    aria-hidden="true"
+                                    className="absolute opacity-0 h-0 w-0 overflow-hidden pointer-events-none"
+                                />
+
                                 <div className="grid sm:grid-cols-2 gap-5 mb-5">
                                     <div>
                                         <label
-                                            htmlFor="name"
+                                            htmlFor="from_name"
                                             className="block text-sm font-medium text-text-secondary mb-2"
                                         >
                                             Name
                                         </label>
                                         <input
                                             type="text"
-                                            id="name"
-                                            value={formState.name}
-                                            onChange={(e) =>
-                                                setFormState({ ...formState, name: e.target.value })
-                                            }
+                                            id="from_name"
+                                            name="from_name"
                                             className="w-full px-4 py-3 rounded-xl bg-surface-light/50 border border-surface-lighter/50 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all duration-300"
                                             placeholder="Nama Kamu"
                                             required
+                                            disabled={status === 'loading'}
                                         />
                                     </div>
                                     <div>
                                         <label
-                                            htmlFor="email"
+                                            htmlFor="from_email"
                                             className="block text-sm font-medium text-text-secondary mb-2"
                                         >
                                             Email
                                         </label>
                                         <input
                                             type="email"
-                                            id="email"
-                                            value={formState.email}
-                                            onChange={(e) =>
-                                                setFormState({ ...formState, email: e.target.value })
-                                            }
+                                            id="from_email"
+                                            name="from_email"
                                             className="w-full px-4 py-3 rounded-xl bg-surface-light/50 border border-surface-lighter/50 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all duration-300"
                                             placeholder="Email_kamu@example.com"
                                             required
+                                            disabled={status === 'loading'}
                                         />
                                     </div>
                                 </div>
@@ -173,30 +211,74 @@ export default function Contact() {
                                     </label>
                                     <textarea
                                         id="message"
+                                        name="message"
                                         rows={5}
-                                        value={formState.message}
-                                        onChange={(e) =>
-                                            setFormState({ ...formState, message: e.target.value })
-                                        }
                                         className="w-full px-4 py-3 rounded-xl bg-surface-light/50 border border-surface-lighter/50 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 transition-all duration-300 resize-none"
-                                        placeholder="Tell me about your project..."
+                                        placeholder="Kirim Pesanmu disini.."
                                         required
+                                        disabled={status === 'loading'}
                                     />
                                 </div>
+
+                                {/* Submit Button with multiple states */}
                                 <button
                                     type="submit"
-                                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-linear-to-r from-primary to-accent text-white font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 disabled:opacity-50"
-                                    disabled={submitted}
+                                    disabled={status === 'loading' || status === 'success'}
+                                    className={`
+                                        w-full sm:w-auto px-8 py-3.5 rounded-full font-semibold
+                                        transition-all duration-300 hover:scale-105 hover:-translate-y-0.5
+                                        disabled:hover:scale-100 disabled:hover:translate-y-0
+                                        flex items-center justify-center gap-2
+                                        ${status === 'success'
+                                            ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                                            : status === 'error'
+                                                ? 'bg-red-500 text-white shadow-lg shadow-red-500/25 hover:bg-red-600'
+                                                : 'bg-linear-to-r from-primary to-accent text-white hover:shadow-xl hover:shadow-primary/25'
+                                        }
+                                        ${status === 'loading' ? 'opacity-80 cursor-wait' : ''}
+                                    `}
                                 >
-                                    {submitted ? (
-                                        <span className="flex items-center gap-2">
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    {status === 'loading' && (
+                                        <>
+                                            <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                                             </svg>
-                                            Message Sent!
-                                        </span>
-                                    ) : (
-                                        'Send Message'
+                                            <span>Mengirim...</span>
+                                        </>
+                                    )}
+                                    {status === 'success' && (
+                                        <>
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                    d="M5 13l4 4L19 7"
+                                                    className="animate-[draw_0.5s_ease-out_forwards]"
+                                                    style={{
+                                                        strokeDasharray: 24,
+                                                        strokeDashoffset: 24,
+                                                        animation: 'draw 0.5s ease-out forwards',
+                                                    }}
+                                                />
+                                            </svg>
+                                            <span>Pesan Terkirim!</span>
+                                        </>
+                                    )}
+                                    {status === 'error' && (
+                                        <>
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span>Gagal, Coba Lagi</span>
+                                        </>
+                                    )}
+                                    {status === 'idle' && (
+                                        <>
+                                            <span>Kirim Pesan</span>
+                                            <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                            </svg>
+                                        </>
                                     )}
                                 </button>
                             </form>
@@ -206,7 +288,7 @@ export default function Contact() {
                         <div className="lg:col-span-2 flex flex-col gap-6">
                             {/* Contact Info */}
                             <div className="glass rounded-2xl p-8 border border-surface-lighter/50">
-                                <h3 className="text-lg font-semibold mb-6">Get in Touch</h3>
+                                <h3 className="text-lg font-semibold mb-6">Alamat</h3>
                                 <div className="flex flex-col gap-5">
                                     {contactInfo.map((info) => (
                                         <a
@@ -230,7 +312,7 @@ export default function Contact() {
 
                             {/* Social Links */}
                             <div className="glass rounded-2xl p-8 border border-surface-lighter/50">
-                                <h3 className="text-lg font-semibold mb-6">Follow My Social Media</h3>
+                                <h3 className="text-lg font-semibold mb-6">Kontak</h3>
                                 <div className="flex gap-3">
                                     {socials.map((social) => (
                                         <a
@@ -250,6 +332,13 @@ export default function Contact() {
                     </div>
                 </div>
             </div>
+
+            {/* Keyframes for check-mark draw animation */}
+            <style>{`
+                @keyframes draw {
+                    to { stroke-dashoffset: 0; }
+                }
+            `}</style>
         </section>
     );
 }

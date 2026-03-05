@@ -95,7 +95,7 @@ export default function Hero() {
                     className="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float"
                     style={{ animationDelay: '3s' }}
                 />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-primary/5 to-accent/5 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-linear-to-br from-primary/5 to-accent/5 rounded-full blur-3xl" />
             </div>
 
             <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-6">
@@ -125,7 +125,7 @@ export default function Hero() {
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
                         <a
                             href="#projects"
-                            className="px-8 py-3.5 rounded-full bg-gradient-to-r from-primary to-accent text-white font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+                            className="px-8 py-3.5 rounded-full bg-linear-to-r from-primary to-accent text-white font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
                         >
                             View Projects
                         </a>
@@ -165,10 +165,10 @@ export default function Hero() {
                 >
                     <div className="relative w-[280px] h-[340px] sm:w-[320px] sm:h-[400px] lg:w-[400px] lg:h-[500px] xl:w-[440px] xl:h-[560px]">
                         {/* Background glow */}
-                        <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 via-accent/15 to-primary/10 rounded-3xl blur-2xl opacity-60 animate-pulse" />
+                        <div className="absolute -inset-4 bg-linear-to-br from-primary/20 via-accent/15 to-primary/10 rounded-3xl blur-2xl opacity-60 animate-pulse" />
 
                         {/* Glassmorphism frame */}
-                        <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary/40 via-accent/30 to-primary/20 p-[1px]">
+                        <div className="absolute -inset-[2px] rounded-2xl bg-linear-to-br from-primary/40 via-accent/30 to-primary/20 p-px">
                             <div className="w-full h-full rounded-2xl bg-surface/60 backdrop-blur-sm" />
                         </div>
 
@@ -181,8 +181,8 @@ export default function Hero() {
                             />
 
                             {/* Overlay gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-surface/60 via-transparent to-transparent opacity-40" />
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 mix-blend-overlay" />
+                            <div className="absolute inset-0 bg-linear-to-t from-surface/60 via-transparent to-transparent opacity-40" />
+                            <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-accent/5 mix-blend-overlay" />
                         </div>
 
                         {/* Floating Tech Icons */}

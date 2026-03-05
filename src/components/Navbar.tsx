@@ -51,7 +51,7 @@ export default function Navbar() {
                 {/* CTA Button Desktop */}
                 <a
                     href="#contact"
-                    className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105"
+                    className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-linear-to-r from-primary to-accent text-white text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105"
                 >
                     Let's Talk
                 </a>
@@ -99,7 +99,7 @@ export default function Navbar() {
                             <a
                                 href="#contact"
                                 onClick={() => setMobileOpen(false)}
-                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-linear-to-r from-primary to-accent text-white text-sm font-semibold"
                             >
                                 Let's Talk
                             </a>

@@ -98,7 +98,7 @@ export default function Contact() {
     return (
         <section id="contact" className="py-24 relative">
             {/* Subtle background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent/[0.02] to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-b from-transparent via-accent/2 to-transparent" />
 
             <div className="max-w-6xl mx-auto px-6 relative">
                 <div ref={sectionRef} className={`reveal ${isVisible ? 'visible' : ''}`}>
@@ -185,7 +185,7 @@ export default function Contact() {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-primary to-accent text-white font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 disabled:opacity-50"
+                                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-linear-to-r from-primary to-accent text-white font-semibold hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 disabled:opacity-50"
                                     disabled={submitted}
                                 >
                                     {submitted ? (

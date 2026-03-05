@@ -95,7 +95,7 @@ export default function TechStack() {
     return (
         <section id="techstack" className="py-24 relative">
             {/* Subtle background */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/2 to-transparent" />
 
             <div className="max-w-6xl mx-auto px-6 relative">
                 <div ref={sectionRef} className={`reveal ${isVisible ? 'visible' : ''}`}>

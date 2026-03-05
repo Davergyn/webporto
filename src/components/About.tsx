@@ -73,7 +73,7 @@ function SkillCard({
             >
                 {/* Icon and Category */}
                 <div
-                    className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center text-2xl mb-5`}
+                    className={`w-14 h-14 rounded-xl bg-linear-to-br ${skill.color} flex items-center justify-center text-2xl mb-5`}
                 >
                     {skill.icon}
                 </div>
